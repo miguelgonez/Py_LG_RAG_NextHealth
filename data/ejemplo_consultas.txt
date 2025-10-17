@@ -1,0 +1,112 @@
+# CONSULTAS DE PRUEBA - SISTEMA RAG NEXTHEALTH
+# Generado: 2025-10-17
+# Documentos disponibles: ICPC-3, Lifestyle Medicine, Health Promotion, Positive Health, Sleep Disorders, Gender-Specific Medicine
+
+# ==========================================
+# CONSULTAS SOBRE SÍNTOMAS Y CONDICIONES
+# ==========================================
+
+[VECTOR] ¿Cuáles son los síntomas principales de la diabetes tipo 2?
+
+[VECTOR] ¿Cómo se diferencia la diabetes tipo 1 de la diabetes tipo 2?
+
+[VECTOR] ¿Qué factores de riesgo están asociados con la hipertensión arterial?
+
+[VECTOR] ¿Cuáles son los signos de alerta de un trastorno del sueño grave como la apnea del sueño?
+
+[VECTOR] ¿Qué síntomas caracterizan los trastornos de ansiedad según la medicina del estilo de vida?
+
+# ==========================================
+# CONSULTAS SOBRE CÓDIGOS CLÍNICOS
+# ==========================================
+
+[SQL] ¿Qué código ICPC-3 corresponde a hipertensión arterial?
+
+[SQL] Dame todos los códigos ICPC-3 de la categoría K (cardiovascular)
+
+[SQL] ¿Cuál es el código ICPC-3 para diabetes mellitus tipo 2?
+
+[SQL] Lista los códigos ICPC-3 relacionados con trastornos del sueño
+
+[SQL] ¿Qué código ICD-10 corresponde al código ICPC-3 K86?
+
+# ==========================================
+# CONSULTAS SOBRE TRATAMIENTOS Y MANEJO
+# ==========================================
+
+[VECTOR] ¿Qué intervenciones de medicina del estilo de vida se recomiendan para el manejo de la diabetes?
+
+[VECTOR] ¿Cómo puede la actividad física ayudar en el tratamiento de la hipertensión?
+
+[VECTOR] ¿Qué estrategias de salud positiva se pueden aplicar para mejorar el bienestar emocional?
+
+[VECTOR] ¿Cuáles son las recomendaciones de higiene del sueño para tratar el insomnio?
+
+# ==========================================
+# CONSULTAS COMPLEJAS (HÍBRIDAS)
+# ==========================================
+
+[HYBRID] ¿Cuál es el protocolo de tratamiento para el código ICPC-3 K86 y qué recomendaciones de estilo de vida incluye?
+
+[HYBRID] Para el código K87 de hipertensión, ¿qué intervenciones de medicina del estilo de vida están indicadas?
+
+[HYBRID] ¿Qué códigos ICPC-3 están relacionados con salud mental y qué enfoques de salud positiva se pueden aplicar?
+
+# ==========================================
+# CONSULTAS COMPARATIVAS Y ANALÍTICAS
+# ==========================================
+
+[VECTOR] ¿Cuáles son las diferencias entre la medicina del estilo de vida y la medicina tradicional?
+
+[VECTOR] Compara los enfoques de promoción de la salud con los de salud positiva
+
+[VECTOR] ¿Cómo difiere el manejo de la obesidad en hombres y mujeres según la medicina de género específico?
+
+# ==========================================
+# CONSULTAS SOBRE PREVENCIÓN Y PROMOCIÓN
+# ==========================================
+
+[VECTOR] ¿Qué estrategias de promoción de la salud son más efectivas para prevenir enfermedades cardiovasculares?
+
+[VECTOR] ¿Cómo puede la medicina del estilo de vida contribuir a la prevención de la diabetes tipo 2?
+
+[VECTOR] ¿Qué herramientas de salud positiva se pueden usar para mejorar el bienestar general?
+
+# ==========================================
+# CONSULTAS ESPECÍFICAS DE DOCUMENTOS
+# ==========================================
+
+[VECTOR] ¿Qué es la medicina del estilo de vida y cuáles son sus pilares fundamentales?
+
+[VECTOR] ¿Cómo se define la salud positiva y en qué se diferencia del modelo biomédico tradicional?
+
+[VECTOR] ¿Qué papel juega la inteligencia artificial en la medicina personalizada según los documentos disponibles?
+
+# ==========================================
+# CONSULTAS SOBRE POBLACIONES ESPECÍFICAS
+# ==========================================
+
+[VECTOR] ¿Cuáles son las consideraciones específicas de género en el tratamiento de enfermedades cardiovasculares?
+
+[VECTOR] ¿Qué factores biológicos relacionados con el sexo afectan el desarrollo de enfermedades metabólicas?
+
+# ==========================================
+# CONSULTAS SQL AVANZADAS
+# ==========================================
+
+[SQL] ¿Cuántos códigos ICPC-3 hay en total en la categoría T (endocrino/metabólico)?
+
+[SQL] Lista todos los códigos ICPC-3 que contienen la palabra "diabetes" en su descripción
+
+[SQL] ¿Qué códigos ICPC-3 de la categoría P están relacionados con ansiedad o depresión?
+
+# ==========================================
+# NOTAS DE USO
+# ==========================================
+# [VECTOR] - Consultas que requieren búsqueda semántica en el vectorstore
+# [SQL] - Consultas que requieren búsqueda estructurada en la base de datos de códigos
+# [HYBRID] - Consultas que requieren ambos enfoques (SQL + Vector)
+
+# IMPORTANTE: Estas consultas son solo para fines informativos y educativos.
+# NO proporcionan diagnósticos, tratamientos ni consejos médicos.
+# Siempre consulte a un profesional de la salud calificado.

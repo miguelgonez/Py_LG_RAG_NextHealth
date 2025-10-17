@@ -1,0 +1,16 @@
+question,relevant_docs,difficulty,category
+"¿Qué es la diabetes tipo 2 y cuáles son sus factores de riesgo?","ICPC-3 International Classification;Lifestyle Medicine Fourth Edition",easy,endocrine
+"¿Cómo puedo mejorar la calidad de mi sueño de forma natural?","Mayo Clinic Guide to Better Sleep;Health and Exercise Wellbeing",easy,sleep
+"¿Qué diferencias existen en el tratamiento cardiovascular entre hombres y mujeres?","Principles of Gender-Specific Medicine;Lifestyle Medicine Fourth Edition",medium,cardiovascular
+"¿Cuál es el código ICPC-3 para hipertensión arterial sin complicaciones?","ICPC-3 International Classification",easy,cardiovascular
+"¿Qué es la salud positiva y cómo se diferencia del modelo tradicional de salud?","Positive Health The Basics;Health Promotion Programs",medium,preventive
+"¿Cuáles son las intervenciones de medicina del estilo de vida para prevenir enfermedades cardiovasculares?","Lifestyle Medicine Fourth Edition;Health Promotion Programs;Health and Exercise Wellbeing",medium,cardiovascular
+"¿Cómo se evalúa el comportamiento de adherencia al tratamiento en pacientes crónicos?","Assessment in Behavioral Medicine;Lifestyle Medicine Fourth Edition",medium,behavioral
+"¿Qué trastornos del sueño están asociados con mayor riesgo de enfermedades metabólicas?","Mayo Clinic Guide to Better Sleep;Lifestyle Medicine Fourth Edition",medium,sleep
+"¿Cuáles son las diferencias en la presentación clínica de la depresión según el género?","Principles of Gender-Specific Medicine;Assessment in Behavioral Medicine",difficult,mental_health
+"¿Qué programas de promoción de salud han demostrado efectividad en comunidades con bajos recursos?","Health Promotion Programs;Positive Health The Basics",medium,preventive
+"¿Cómo se clasifican las enfermedades respiratorias crónicas en ICPC-3 y qué ejercicios son recomendados?","ICPC-3 International Classification;Health and Exercise Wellbeing",medium,respiratory
+"¿Cuál es el rol del ejercicio físico en el tratamiento de la ansiedad y la depresión?","Health and Exercise Wellbeing;Assessment in Behavioral Medicine;Lifestyle Medicine Fourth Edition",medium,mental_health
+"¿Qué estrategias conductuales son más efectivas para el manejo del dolor crónico?","Assessment in Behavioral Medicine;Lifestyle Medicine Fourth Edition",difficult,pain_management
+"¿Cómo influyen las hormonas en el sueño durante la menopausia y qué intervenciones existen?","Principles of Gender-Specific Medicine;Mayo Clinic Guide to Better Sleep",difficult,sleep
+"¿Qué componentes debe incluir un programa integral de bienestar en el lugar de trabajo?","Health Promotion Programs;Positive Health The Basics;Health and Exercise Wellbeing",easy,preventive

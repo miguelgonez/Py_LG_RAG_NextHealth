@@ -1,0 +1,72 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Data & Models
+chroma_db/
+*.db
+*.sqlite
+*.sqlite3
+db/
+
+# Documents (keep directory structure, ignore content)
+docs/*
+!docs/.gitkeep
+
+# Logs
+*.log
+logs/
+/tmp/
+
+# Environment variables
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Model cache
+models/
+transformers_cache/
+sentence_transformers/
+
+# Temporary files
+*.tmp
+*.bak

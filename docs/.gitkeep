@@ -1,0 +1,3 @@
+# Carpeta para documentos clínicos
+# Formatos soportados: PDF, TXT, MD, HTML, HTM
+# Los documentos colocados aquí serán indexados en el sistema RAG

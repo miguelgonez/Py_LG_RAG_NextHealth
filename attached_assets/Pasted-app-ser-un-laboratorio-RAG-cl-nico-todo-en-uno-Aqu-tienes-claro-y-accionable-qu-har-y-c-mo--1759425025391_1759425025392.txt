@@ -1,0 +1,214 @@
+app será un “laboratorio RAG clínico” todo-en-uno. Aquí tienes, claro y accionable, qué hará y cómo se comportará en cada parte.
+
+Visión general (qué resuelve)
+
+Responder preguntas clínicas en español con evidencia (citas a fuentes) combinando:
+
+Recuperación semántica + re-ranking BGE para precisión en top-k.
+
+Routing: decide si la pregunta es “conocimiento libre” (usa vectorstore) o “dato estructurado” (usa SQL sobre ICPC-3/mapeos).
+
+Evaluar calidad del sistema (nDCG@k, Recall@k, latencias por paso) para que puedas iterar con rigor.
+
+Cumplir guardarraíles: información, no diagnóstico; siempre con disclaimer y fuentes.
+
+UX en Streamlit (3 pestañas)
+1) Búsqueda RAG
+
+Caja de pregunta + selectores (k inicial, k re-rank, umbral similitud).
+
+Flujo:
+
+Routing ligero: si detecta intención estructurada (p. ej., “mapéame ICPC-3 a CIE-11”), envía a SQL; si no, vectorstore.
+
+Retriever (Chroma + embeddings multilingual-e5-base) trae N pasajes.
+
+Re-ranker BGE (bge-reranker-base) reordena por relevancia fina y recorta a top-k.
+
+Generación (OpenAI) compone una respuesta en español con citas numeradas y disclaimer clínico.
+
+Panel lateral: sliders de k, top-p/temperature (si expones), switches de multi-query, mostrar/u ocultar metadatos.
+
+Salida: respuesta, citas clicables, lista de pasajes usados (score retriever + score BGE), y latencias por etapa (retrieval, re-ranking, generación).
+
+2) Consulta SQL
+
+Editor SQL + plantillas (ej.: “SELECT * FROM icpc_map WHERE term LIKE '%hipertensión%'”).
+
+Dataset: SQLite con tablas tipo icpc_map(icpc_code, term_es, cie11_code, snomed_id, notes) y las que necesites (sin datos personales).
+
+Vista: tabla paginada, botón “copiar CSV”, métricas de latencia de ejecución.
+
+3) Evaluación
+
+Sube CSV de test y ejecuta evaluación:
+
+Calcula nDCG@k y Recall@k por query y promedio.
+
+Muestra histograma de nDCG, top fallos (queries con bajo nDCG), y tiempos por query.
+
+Formato CSV sugerido (una fila por candidato):
+
+query_id,query,doc_id,text_candidato,label
+1,"qué es la diabetes tipo 2","A","Pasaje A ...",3
+1,"qué es la diabetes tipo 2","B","Pasaje B ...",1
+1,"qué es la diabetes tipo 2","C","Pasaje C ...",0
+2,"tratamiento hipertensión en ancianos","D","...",2
+
+
+label: 0–3 (ganancia ordinal); funciona también con 0/1.
+
+Motor RAG (cómo funciona por dentro)
+Ingesta e indexado
+
+Fuentes: PDF/HTML/MD.
+
+Limpieza (extraer texto, normalizar encabezados).
+
+Chunking con RecursiveCharacterTextSplitter (p. ej., 700–900 chars, overlap 100–150), conservando metadatos (título, URL, sección).
+
+Embeddings: multilingual-e5-base → ChromaDB con persistencia local (persist_directory).
+
+Multi-query opcional (LangChain) para ampliar recall (varía ligeramente la query).
+
+Recuperación + Re-ranking
+
+Retriever (cosine + topN grande, p. ej., 30–50).
+
+BGE re-ranker (cross-encoder) puntúa (query, pasaje) y reordena → top-k final (p. ej., 5–10).
+
+Beneficio: sube precisión@k y nDCG@k respecto a solo embeddings/BM25.
+
+Generación con fuentes
+
+Prompt en español, estilo clínico-informativo, pide:
+
+Resumen claro, sin diagnósticos.
+
+Lista de citas (autor/año o título, enlace si lo tienes en metadatos).
+
+Disclaimer (“Contenido informativo; no sustituye consejo médico profesional.”).
+
+Routing inteligente (decisión SQL vs Vectorstore)
+
+Heurística híbrida (rápida y estable):
+
+Si la query contiene patrones de mapeo/código (regex: \bICPC|CIE|SNOMED|map(e|eo)|código(s)?\b) → SQL.
+
+Si pide listados/tablas exactas ( “devuélveme código”, “enumera campos”, “equivalencias”) → SQL.
+
+Si es pregunta clínica narrativa (“qué, cómo, cuándo”) → Vectorstore + RAG.
+
+(Opcional) Un clasificador ligero (logística o mini-LLM) para aprender de tu histórico.
+
+Métricas y telemetría
+
+Calidad: nDCG@k (5/10), Recall@k, % respuestas con ≥N citas, longitud media contexto.
+
+Rendimiento: latencia por etapa (retrieval, re-rank, generación), throughput.
+
+Salud del índice: nº documentos, distribución de tamaños, duplicados detectados.
+
+Guardarraíles clínicos
+
+Políticas:
+
+No dar diagnósticos ni prescripciones.
+
+Sugerir acudir a profesional ante síntomas/urgencias.
+
+Bloquear contenidos sensibles (p. ej., dosificaciones) salvo que provengan de fuentes oficiales y en modo informativo.
+
+Técnica:
+
+Plantilla de sistema + validación de salida (regex para prohibir “te receto”, “toma X mg”, etc.).
+
+Umbral mínimo de confianza (si pocos pasajes relevantes → responde con “no hay suficiente evidencia en el corpus” y sugiere ampliar fuentes).
+
+Datos y esquemas (SQL sugerido)
+-- Mapeos esenciales (ajústalo a tu dataset)
+CREATE TABLE icpc_map(
+  icpc_code TEXT PRIMARY KEY,
+  term_es   TEXT,
+  cie11_code TEXT,
+  snomed_id TEXT,
+  notes TEXT
+);
+
+CREATE TABLE synonyms(
+  term TEXT,
+  normalized TEXT
+);
+
+CREATE INDEX idx_icpc_term ON icpc_map(term_es);
+CREATE INDEX idx_syn_norm   ON synonyms(normalized);
+
+
+Routing SQL permite queries como:
+
+“ICPC para ‘dolor torácico’ y su CIE-11 asociada”.
+
+“Todos los términos ICPC relacionados con diabetes”.
+
+Evaluación (nDCG@k y Recall@k)
+
+Por query_id:
+
+Recupera N candidatos (con y sin BGE para comparar).
+
+Ordena por score (o score BGE).
+
+Calcula DCG@k y IDCG@k → nDCG@k.
+
+Recall@k = (# relevantes en top-k) / (# relevantes totales del set).
+
+Reporte:
+
+nDCG@5/10 promedio + desviación.
+
+Tabla de peores queries (para depuración de embeddings o chunking).
+
+Impacto del re-ranker (∆nDCG y ∆Recall).
+
+Parámetros por defecto (buenos puntos de partida)
+
+Chunk size 800, overlap 120.
+
+Retriever topN=40; BGE re-rank a top-k=8.
+
+Multi-query: 3 reformulaciones.
+
+Filtro de similitud mínimo (cosine ≥ 0.25–0.3) antes del re-rank.
+
+Límite de tokens al LLM: contexto ~4–6 pasajes.
+
+Ejemplos de uso (prompts)
+
+Clínico RAG: “¿Cuáles son las recomendaciones actuales para cribado de cáncer colorrectal en adultos de 50–75 años? Cita fuentes”.
+
+Estructurado SQL: “Dame el código ICPC-3 para ‘lumbalgia’ y su correspondencia con CIE-11”.
+
+Mixto: “Relación entre HTA y ERC: criterios de derivación a Nefrología y códigos ICPC-3 implicados”.
+
+Riesgos y cómo mitigarlos
+
+Alucinación de fuentes → siempre usar pasajes recuperados y citar metadatos del índice (no inventar DOIs).
+
+Preguntas fuera del corpus → mensaje honesto + sugerir cargar nuevas fuentes.
+
+Latencia alta por re-rank: ajustar topN del retriever y batch del BGE; cachear embeddings y scores.
+
+Entregables “casi llave en mano”
+
+Script de ingesta/indexado (CLI) para volver a indexar fácil.
+
+App Streamlit con las 3 pestañas y configuración en sidebar.
+
+Módulo de evaluación que lee CSV y guarda un report.json (nDCG, Recall, latencias, top fallos).
+
+Ejemplo de CSV de test y plantillas SQL.
+
+Si quieres, te preparo el esqueleto de carpetas (src/pages para Streamlit multipestaña, data/ para Chroma, sql/ para seeds, eval/ para CSVs) y los prompts base listos para pegar.
+
+Pensando
+ChatGPT puede cometer errores. Considera verificar la información importante. Ver preferencias de cookies.

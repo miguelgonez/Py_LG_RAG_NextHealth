@@ -1,0 +1,6 @@
+question,relevant_docs
+¿Cuáles son los criterios diagnósticos para diabetes mellitus tipo 2?,diabetes_guide.pdf;clinical_protocols.pdf;endocrine_manual.pdf
+¿Qué código ICPC-3 corresponde a hipertensión arterial?,icpc3_codes.csv;hypertension_classification.pdf
+Explica el tratamiento farmacológico de primera línea para la hipertensión,hypertension_treatment.pdf;pharmacology_guide.pdf;clinical_guidelines.pdf
+¿Cómo se mapea T90 de ICPC-3 a CIE-10?,icpc3_icd10_mapping.csv;code_equivalences.pdf
+¿Cuáles son las complicaciones microvasculares de la diabetes?,diabetes_complications.pdf;diabetic_retinopathy.pdf;diabetic_nephropathy.pdf

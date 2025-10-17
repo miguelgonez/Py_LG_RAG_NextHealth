@@ -187,9 +187,9 @@ def create_vector_store(splits: List, embeddings, persist_dir: str) -> Chroma:
             persist_directory=persist_dir,
             collection_name="rag_nexthealth"
         )
-        
-        vectorstore.persist()
-        
+
+        # Note: .persist() is deprecated in langchain-chroma, auto-persists now
+
         return vectorstore
     
     except Exception as e:
@@ -277,9 +277,9 @@ def add_to_vector_store(
                         print(f"   🗑️ Eliminados {len(old_ids)} chunks antiguos")
             except Exception as e:
                 print(f"   ⚠️ Warning eliminando chunks antiguos: {str(e)}")
-        
-        vectorstore.persist()
-        
+
+        # Note: .persist() is deprecated in langchain-chroma, auto-persists now
+
         return vectorstore
         
     except Exception as e:
@@ -340,8 +340,8 @@ def ingest_incremental(
             for file_path_str in removed_files:
                 delete_file_from_vectorstore(temp_vs, file_path_str)
                 print(f"   🗑️ Eliminado del vector store: {Path(file_path_str).name}")
-            
-            temp_vs.persist()
+
+            # Note: .persist() is deprecated in langchain-chroma, auto-persists now
         except Exception as e:
             print(f"   ⚠️ Warning limpiando archivos eliminados: {str(e)}")
     
